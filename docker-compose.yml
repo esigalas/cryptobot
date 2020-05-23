@@ -14,12 +14,18 @@ services:
       RETHINK_HOST: ${RETHINK_DB_HOST}
     image: "coinbase-adapter"
     container_name: coinbase_adapter
+    volumes:
+      - cryptobot_data:/src
     restart: always
     ports:
     - 9000:9000
   crypto-analyzer-service:
     depends_on:
       - realtime-db
+      - coinbase-adapter-service
     image: "crypto-analyzer"
     container_name: crypto_analyzer
     restart: always
+volumes:
+  cryptobot_data:
+    driver: local
